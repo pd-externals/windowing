@@ -19,83 +19,17 @@
 ** jsarlo@mambo.peabody.jhu.edu
 */
 
-#include "m_pd.h"
-#include <stdlib.h>
-#include <math.h>
+#include "windowing.h"
 
-#ifdef _WIN32
-#define M_PI 3.14159265358979323846
-#endif
-
-#ifdef _MSC_VER
-#pragma warning( disable : 4244 )
-#pragma warning( disable : 4305 )
-#endif
-
-#define DEFBLOCKSIZE 64
-
-void fillCosine(float *vec, int n) {
-  int i;
-  float xShift = (float)n / 2;
-  float x;
+static void fillCosine(t_windowing *unused, t_sample *vec, size_t n) {
+  size_t i;
+  t_sample xShift = (t_sample)n / 2;
+  t_sample x;
+  (void)unused;
   for (i = 0; i < n; i++) {
     x = (i - xShift) / xShift;
-    vec[i] = (float)cos(M_PI * x / 2);
+    vec[i] = (t_sample)cos(M_PI * x / 2);
   }
 }
 
-static t_class *cosine_class;
-
-typedef struct _cosine {
-  t_object x_obj;
-  int x_blocksize;
-  float *x_table;
-} t_cosine;
-
-static t_int* cosine_perform(t_int *w) {
-  t_cosine *x = (t_cosine *)(w[1]);
-  t_float *in = (t_float *)(w[2]);
-  t_float *out = (t_float *)(w[3]);
-  int n = (int)(w[4]);
-  int i;
-  if (x->x_blocksize != n) {
-    if (x->x_blocksize < n) {
-      x->x_table = realloc(x->x_table, n * sizeof(float));
-    }
-    x->x_blocksize = n;
-    fillCosine(x->x_table, x->x_blocksize);
-  }
-  for (i = 0; i < n; i++) {
-    *out++ = *(in++) * x->x_table[i];
-  }
-  return (w + 5);
-}
-
-static void cosine_dsp(t_cosine *x, t_signal **sp) {
-  dsp_add(cosine_perform, 4, x, sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
-}
-
-static void* cosine_new(void) {
-  t_cosine *x = (t_cosine *)pd_new(cosine_class);
-  x->x_blocksize = DEFBLOCKSIZE;
-  x->x_table = malloc(x->x_blocksize * sizeof(float));
-  fillCosine(x->x_table, x->x_blocksize);
-  outlet_new(&x->x_obj, gensym("signal"));
-  return (x);
-}
-
-static void cosine_free(t_cosine *x) {
-  free(x->x_table);
-}
-
-void cosine_tilde_setup(void) {
-  cosine_class = class_new(gensym("cosine~"),
-			    (t_newmethod)cosine_new, 
-			    (t_method)cosine_free,
-    	                    sizeof(t_cosine),
-			    0,
-			    A_DEFFLOAT,
-			    0);
-  class_addmethod(cosine_class, nullfn, gensym("signal"), 0);
-  class_addmethod(cosine_class, (t_method)cosine_dsp, gensym("dsp"), 0);
-}
+WINDOWING_SETUP(cosine, fillCosine);

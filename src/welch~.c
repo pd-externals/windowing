@@ -19,78 +19,17 @@
 ** jsarlo@mambo.peabody.jhu.edu
 */
 
-#include "m_pd.h"
-#include <stdlib.h>
+#include "windowing.h"
 
-#ifdef _MSC_VER
-#pragma warning( disable : 4244 )
-#pragma warning( disable : 4305 )
-#endif
-
-#define DEFBLOCKSIZE 64
-
-void fillWelch(float *vec, int n) {
-  int i;
-  float xShift = (float)n / 2;
-  float x;
+static void fillWelch(t_windowing *unused, t_sample *vec, size_t n) {
+  size_t i;
+  t_sample xShift = (t_sample)n / 2;
+  t_sample x;
+  (void)unused;
   for (i = 0; i < n; i++) {
     x = (i - xShift) / xShift;
     vec[i] = 1 - (x * x);
   }
 }
 
-static t_class *welch_class;
-
-typedef struct _welch {
-  t_object x_obj;
-  int x_blocksize;
-  float *x_table;
-} t_welch;
-
-static t_int* welch_perform(t_int *w) {
-  t_welch *x = (t_welch *)(w[1]);
-  t_float *in = (t_float *)(w[2]);
-  t_float *out = (t_float *)(w[3]);
-  int n = (int)(w[4]);
-  int i;
-  if (x->x_blocksize != n) {
-    if (x->x_blocksize < n) {
-      x->x_table = realloc(x->x_table, n * sizeof(float));
-    }
-    x->x_blocksize = n;
-    fillWelch(x->x_table, x->x_blocksize);
-  }
-  for (i = 0; i < n; i++) {
-    *out++ = *(in++) * x->x_table[i];
-  }
-  return (w + 5);
-}
-
-static void welch_dsp(t_welch *x, t_signal **sp) {
-  dsp_add(welch_perform, 4, x, sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
-}
-
-static void* welch_new(void) {
-  t_welch *x = (t_welch *)pd_new(welch_class);
-  x->x_blocksize = DEFBLOCKSIZE;
-  x->x_table = malloc(x->x_blocksize * sizeof(float));
-  fillWelch(x->x_table, x->x_blocksize);
-  outlet_new(&x->x_obj, gensym("signal"));
-  return (x);
-}
-
-static void welch_free(t_welch *x) {
-  free(x->x_table);
-}
-
-void welch_tilde_setup(void) {
-  welch_class = class_new(gensym("welch~"),
-			    (t_newmethod)welch_new, 
-			    (t_method)welch_free,
-    	                    sizeof(t_welch),
-			    0,
-			    A_DEFFLOAT,
-			    0);
-  class_addmethod(welch_class, nullfn, gensym("signal"), 0);
-  class_addmethod(welch_class, (t_method)welch_dsp, gensym("dsp"), 0);
-}
+WINDOWING_SETUP(welch, fillWelch);
