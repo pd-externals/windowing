@@ -19,98 +19,57 @@
 ** jsarlo@mambo.peabody.jhu.edu
 */
 
-#include "m_pd.h"
+#include "windowing.h"
 #include "mconf.h"
-#include <stdlib.h>
-#include <math.h>
-
-#ifdef _MSC_VER
-#pragma warning( disable : 4244 )
-#pragma warning( disable : 4305 )
-#endif
 
 #define DEFALPHA 10
-#define DEFBLOCKSIZE 64
 
 double i0(double x);
 double i0e(double x);
 
-void fillKaiser(float *vec, int n, float alpha) {
-  int i;
-  float xShift = (float)n / 2;
-  float x;
+
+typedef struct _kaiser {
+  t_windowing x_w;
+  t_float x_alpha;
+} t_kaiser;
+
+
+
+static void fillKaiser(t_kaiser *obj, t_sample *vec, size_t n) {
+  t_sample alpha = obj->x_alpha;
+  size_t i;
+  t_sample xShift = (t_sample)n / 2;
+  t_sample x;
   for (i = 0; i < n; i++) {
     x = (i - xShift) / xShift;
-    vec[i] = (float)(i0(alpha * sqrt(1 - (x * x))) / i0(alpha));
+    vec[i] = (t_sample)(i0(alpha * sqrt(1 - (x * x))) / i0(alpha));
   }
 }
 
 static t_class *kaiser_class;
 
-typedef struct _kaiser {
-  t_object x_obj;
-  int x_blocksize;
-  float *x_table;
-  float x_alpha;
-} t_kaiser;
-
-static t_int* kaiser_perform(t_int *w) {
-  t_kaiser *x = (t_kaiser *)(w[1]);
-  t_float *in = (t_float *)(w[2]);
-  t_float *out = (t_float *)(w[3]);
-  int n = (int)(w[4]);
-  int i;
-  if (x->x_blocksize != n) {
-    if (x->x_blocksize < n) {
-      x->x_table = realloc(x->x_table, n * sizeof(float));
-    }
-    x->x_blocksize = n;
-    fillKaiser(x->x_table, x->x_blocksize, x->x_alpha);
-  }
-  for (i = 0; i < n; i++) {
-    *out++ = *(in++) * x->x_table[i];
-  }
-  return (w + 5);
-}
-
-static void kaiser_dsp(t_kaiser *x, t_signal **sp) {
-  dsp_add(kaiser_perform, 4, x, sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
-}
-
 static void kaiser_float(t_kaiser *x, t_float alpha) {
   x->x_alpha = alpha;
-  fillKaiser(x->x_table, x->x_blocksize, x->x_alpha);
+  fillKaiser(x, x->x_w.x_table, x->x_w.x_blocksize);
 }
 
 static void* kaiser_new(float alpha) {
-  t_kaiser *x = (t_kaiser *)pd_new(kaiser_class);
-  x->x_blocksize = DEFBLOCKSIZE;
-  if (alpha == 0) {
-    x->x_alpha = DEFALPHA;
-  }
-  else {
-    x->x_alpha = alpha;
-  }
-  x->x_table = malloc(x->x_blocksize * sizeof(float));
-  fillKaiser(x->x_table, x->x_blocksize, x->x_alpha);
-  outlet_new(&x->x_obj, gensym("signal"));
+  t_kaiser *x = (t_kaiser *)windowing_new(kaiser_class);
+  x->x_alpha = (alpha == 0.)?DEFALPHA:alpha;
   return (x);
 }
 
-static void kaiser_free(t_kaiser *x) {
-  free(x->x_table);
-}
 
 void kaiser_tilde_setup(void) {
+  filename = __FILE__;
   kaiser_class = class_new(gensym("kaiser~"),
 			    (t_newmethod)kaiser_new, 
-			    (t_method)kaiser_free,
+			    (t_method)windowing_free,
     	                    sizeof(t_kaiser),
 			    0,
 			    A_DEFFLOAT,
 			    0);
-  class_addmethod(kaiser_class, nullfn, gensym("signal"), 0);
-  class_addmethod(kaiser_class, (t_method)kaiser_dsp, gensym("dsp"), 0);
+  windowing_setup(kaiser_class, 0, (t_window_fill)fillKaiser);
   class_addfloat(kaiser_class, (t_method)kaiser_float);
 }
 
