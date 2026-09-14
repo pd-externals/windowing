@@ -19,103 +19,55 @@
 ** jsarlo@mambo.peabody.jhu.edu
 */
 
-#include "m_pd.h"
-#include <stdlib.h>
-#include <math.h>
-
-#ifdef _MSC_VER
-#pragma warning( disable : 4244 )
-#pragma warning( disable : 4305 )
-#endif
+#include "windowing.h"
 
 #define DEFDELTA 0.5
-#define DEFBLOCKSIZE 64
 
-/* MSW and OSX don't appear to have single-precision ANSI math */
-#if defined(_WIN32) || defined(__APPLE__)
-#define powf pow
-#endif
+static t_class *gaussian_class;
 
-void fillGaussian(float *vec, int n, float delta) {
-  int i;
-  float xShift = (float)n / 2;
-  float x;
+typedef struct _gaussian {
+  t_windowing x_w;
+  t_float x_delta;
+} t_gaussian;
+
+
+static void fillGaussian(t_gaussian *obj, t_sample *vec, size_t n) {
+  size_t i;
+  t_sample xShift = (t_sample)n / 2;
+  t_sample x;
+  t_sample delta = obj->x_delta;
   if (delta == 0) {
     delta = 1;
   }
   for (i = 0; i < n; i++) {
     x = (i - xShift) / xShift;
-    vec[i] = (float)(pow(2, (-1 * (x / delta) * (x / delta))));
+    vec[i] = (t_sample)(pow(2, (-1 * (x / delta) * (x / delta))));
   }
-}
-
-static t_class *gaussian_class;
-
-typedef struct _gaussian {
-  t_object x_obj;
-  int x_blocksize;
-  float *x_table;
-  float x_delta;
-} t_gaussian;
-
-static t_int* gaussian_perform(t_int *w) {
-  t_gaussian *x = (t_gaussian *)(w[1]);
-  t_float *in = (t_float *)(w[2]);
-  t_float *out = (t_float *)(w[3]);
-  int n = (int)(w[4]);
-  int i;
-  if (x->x_blocksize != n) {
-    if (x->x_blocksize < n) {
-      x->x_table = realloc(x->x_table, n * sizeof(float));
-    }
-    x->x_blocksize = n;
-    fillGaussian(x->x_table, x->x_blocksize, x->x_delta);
-  }
-  for (i = 0; i < n; i++) {
-    *out++ = *(in++) * x->x_table[i];
-  }
-  return (w + 5);
-}
-
-static void gaussian_dsp(t_gaussian *x, t_signal **sp) {
-  dsp_add(gaussian_perform, 4, x, sp[0]->s_vec, sp[1]->s_vec, sp[0]->s_n);
 }
 
 static void gaussian_float(t_gaussian *x, t_float delta) {
   if (delta != 0) {
     x->x_delta = delta;
-    fillGaussian(x->x_table, x->x_blocksize, x->x_delta);
+    fillGaussian(x, x->x_w.x_table, x->x_w.x_blocksize);
   }
 }
 
 static void* gaussian_new(float delta) {
-  t_gaussian *x = (t_gaussian *)pd_new(gaussian_class);
-  x->x_blocksize = DEFBLOCKSIZE;
-  if (delta == 0) {
-    x->x_delta = DEFDELTA;
-  }
-  else {
-    x->x_delta = delta;
-  }
-  x->x_table = malloc(x->x_blocksize * sizeof(float));
-  fillGaussian(x->x_table, x->x_blocksize, x->x_delta);
-  outlet_new(&x->x_obj, gensym("signal"));
+  t_gaussian *x = (t_gaussian *)windowing_new(gaussian_class);
+  x->x_delta = (delta == 0)?DEFDELTA:delta;
   return (x);
 }
 
-static void gaussian_free(t_gaussian *x) {
-  free(x->x_table);
-}
-
 void gaussian_tilde_setup(void) {
+  filename = __FILE__;
+
   gaussian_class = class_new(gensym("gaussian~"),
 			    (t_newmethod)gaussian_new, 
-			    (t_method)gaussian_free,
+			    (t_method)windowing_free,
     	                    sizeof(t_gaussian),
 			    0,
 			    A_DEFFLOAT,
 			    0);
-  class_addmethod(gaussian_class, nullfn, gensym("signal"), 0);
-  class_addmethod(gaussian_class, (t_method)gaussian_dsp, gensym("dsp"), 0);
+  windowing_setup(gaussian_class, 0, (t_window_fill)fillGaussian);
   class_addfloat(gaussian_class, (t_method)gaussian_float);
 }
