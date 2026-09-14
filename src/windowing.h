@@ -28,6 +28,7 @@ typedef struct _windowing {
   t_window_fill x_fill;
   size_t x_blocksize;
   t_sample *x_table;
+  t_sample x_makeup; /* make up gain */
 } t_windowing;
 
 static t_int* windowing_perform(t_int *w) {
@@ -45,9 +46,15 @@ static t_int* windowing_perform(t_int *w) {
 static void windowing_dsp(t_windowing *x, t_signal **sp) {
   size_t blocksize = (sp[0]->s_n > 0)?sp[0]->s_n:1;
   if(x->x_fill && x->x_blocksize != blocksize) {
+    size_t i;
+    t_sample sum = 0;
     x->x_table = resizebytes (x->x_table, x->x_blocksize * sizeof(*x->x_table), blocksize * sizeof(*x->x_table));
     x->x_blocksize = blocksize;
     x->x_fill(x, x->x_table, blocksize);
+    for(i=0; i<blocksize; i++) {
+      sum += x->x_table[i]*x->x_table[i];
+    }
+    x->x_makeup = 1./sqrt(sum / (t_sample)blocksize);
   }
   if (x->x_table && x->x_blocksize == blocksize)
     dsp_add(windowing_perform, 4, sp[0]->s_vec, x->x_table, sp[1]->s_vec, sp[0]->s_n);
