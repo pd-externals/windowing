@@ -16,6 +16,7 @@ kaiser~.class.sources   = src/kaiser~.c
 lanczos~.class.sources  = src/lanczos~.c
 parzen~.class.sources   = src/parzen~.c
 rectangle~.class.sources= src/rectangle~.c
+raisedcosine~.class.sources= src/raisedcosine~.c
 welch~.class.sources    = src/welch~.c
 
 datafiles = \
