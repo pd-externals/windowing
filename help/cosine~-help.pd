@@ -4,7 +4,6 @@
 #X obj 3 250 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 310 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 370 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
-#X obj 72 270 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 58 formula:;
 #X floatatom 94 117 5 0 0 0 - - - 0;
 #X obj 97 98 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
@@ -23,7 +22,6 @@
 #X text 15 24 description: generates a cosine window for each dsp block;
 #X obj 94 228 tabsend~ \$0-cosine;
 #X obj 72 330 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
-#X text 102 269 SIGNAL: the height (amplitude) of the window is controled by the signal on its inlet.;
 #X text 103 328 SIGNAL: a cosine (otherwise known as a sine - actually it's half a sine) window with size=dsp blocksize;
 #N canvas 309 222 494 344 META 0;
 #X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
@@ -37,9 +35,12 @@
 #X obj 255 215 windowing/dspSwitch~;
 #X obj 94 182 windowing/cosine~;
 #X obj 501 5 cosine~;
-#X connect 7 0 13 0;
+#X obj 72 261 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
+#X text 101 259 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 101 288 normalize <1|0>: normalize window for overlap-add;
+#X connect 6 0 12 0;
+#X connect 7 0 6 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;
-#X connect 10 0 9 0;
-#X connect 13 0 23 0;
-#X connect 23 0 17 0;
+#X connect 12 0 21 0;
+#X connect 21 0 16 0;

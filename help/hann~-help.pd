@@ -4,7 +4,6 @@
 #X obj 3 244 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 304 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 364 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
-#X obj 72 264 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #N canvas 0 50 450 300 (subpatch) 0;
 #X array \$0-hann 64 float 0;
 #A color 0;
@@ -23,7 +22,6 @@
 #X text 15 24 description: generates a hann window for each dsp block;
 #X text 102 392 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
 #X obj 94 222 tabsend~ \$0-hann;
-#X text 102 263 SIGNAL: the height (amplitude) of the window is controled by the signal on its inlet.;
 #X obj 72 324 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #N canvas 290 213 494 344 META 0;
 #X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
@@ -39,9 +37,12 @@
 #X obj 253 209 windowing/dspSwitch~;
 #X text 12 478 legacy name:;
 #X obj 96 478 hanning~;
-#X connect 8 0 23 0;
-#X connect 10 0 8 0;
+#X obj 72 256 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
+#X text 101 254 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 101 283 normalize <1|0>: normalize window for overlap-add;
+#X connect 7 0 21 0;
+#X connect 9 0 7 0;
+#X connect 10 0 9 0;
 #X connect 11 0 10 0;
 #X connect 12 0 11 0;
-#X connect 13 0 12 0;
-#X connect 23 0 18 0;
+#X connect 21 0 17 0;

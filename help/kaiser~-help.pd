@@ -4,7 +4,7 @@
 #X obj 3 279 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 359 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 399 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
-#X obj 72 299 cnv 17 3 50 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
+#X obj 72 289 cnv 17 3 65 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 47 formula:;
 #X obj 97 114 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X msg 94 84 1;
@@ -18,7 +18,7 @@
 #X coords 0 1 63 -1 200 140 1;
 #X restore 326 130 graph;
 #X text 103 423 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
-#X text 102 298 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 102 288 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
 #X obj 186 114 hsl 81 15 1 240 1 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X floatatom 183 133 5 0 0 0 - - - 0;
 #X obj 94 253 tabsend~ \$0-kaiser;
@@ -27,7 +27,7 @@
 #X text 168 62 Io(a*sqrt(1-x^2))/Io(a);
 #X text 103 367 SIGNAL: a kaiser (exponential decay) window with size=dsp blocksize;
 #X msg 121 84 10;
-#X text 102 324 FLOAT: the narrowness of the kaiser window is controlled by floats in the inlet;
+#X text 102 314 FLOAT: the narrowness of the kaiser window is controlled by floats in the inlet;
 #X text 15 26 description: generates a kaiser window for each dsp block;
 #N canvas 286 187 494 344 META 0;
 #X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
@@ -42,6 +42,7 @@
 #X obj 94 198 windowing/kaiser~;
 #X obj 244 240 windowing/dspSwitch~;
 #X obj 493 8 kaiser~;
+#X text 101 339 normalize <1|0>: normalize window for overlap-add;
 #X connect 7 0 11 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;

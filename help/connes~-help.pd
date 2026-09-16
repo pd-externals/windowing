@@ -4,7 +4,6 @@
 #X obj 3 259 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 319 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 379 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
-#X obj 72 279 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 60 formula:;
 #X floatatom 94 125 5 0 0 0 - - - 0;
 #X obj 97 106 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
@@ -22,7 +21,6 @@
 #X text 169 72 cos(pi*x/2);
 #X obj 72 339 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X obj 94 231 tabsend~ \$0-connes;
-#X text 102 278 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
 #X text 103 337 SIGNAL: a connes window with size=dsp blocksize;
 #X text 15 26 description: generates a connes window for each dsp block;
 #N canvas 309 235 494 344 META 0;
@@ -37,9 +35,12 @@
 #X obj 242 217 windowing/dspSwitch~;
 #X obj 94 186 windowing/connes~;
 #X obj 487 9 connes~;
-#X connect 7 0 13 0;
+#X obj 72 269 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
+#X text 101 267 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 101 296 normalize <1|0>: normalize window for overlap-add;
+#X connect 6 0 12 0;
+#X connect 7 0 6 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;
-#X connect 10 0 9 0;
-#X connect 13 0 23 0;
-#X connect 23 0 17 0;
+#X connect 12 0 21 0;
+#X connect 21 0 16 0;

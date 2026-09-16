@@ -4,7 +4,6 @@
 #X obj 3 246 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 306 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 359 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
-#X obj 72 266 cnv 17 3 25 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 59 formula:;
 #X obj 97 105 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X msg 94 85 1;
@@ -18,7 +17,6 @@
 #X coords 0 1 63 -1 200 140 1;
 #X restore 326 97 graph;
 #X text 102 390 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
-#X text 102 265 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
 #X obj 94 220 tabsend~ \$0-welch;
 #X text 169 72 1-abs(x);
 #X text 103 324 SIGNAL: a welch window with size=dsp blocksize;
@@ -36,8 +34,11 @@
 #X obj 94 169 windowing/welch~;
 #X obj 255 207 windowing/dspSwitch~;
 #X obj 504 5 welch~;
-#X connect 7 0 11 0;
+#X obj 72 258 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
+#X text 101 256 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 101 285 normalize <1|0>: normalize window for overlap-add;
+#X connect 6 0 10 0;
+#X connect 7 0 6 0;
 #X connect 8 0 7 0;
-#X connect 9 0 8 0;
-#X connect 11 0 21 0;
-#X connect 21 0 15 0;
+#X connect 10 0 19 0;
+#X connect 19 0 13 0;

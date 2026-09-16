@@ -4,7 +4,6 @@
 #X obj 3 258 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 318 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
 #X obj 3 378 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
-#X obj 72 278 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 59 formula:;
 #X obj 97 105 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X msg 94 85 1;
@@ -23,9 +22,7 @@
 #X text 102 413 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
 #X obj 93 228 tabsend~ \$0-blackman;
 #X obj 73 338 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
-#X text 102 278 signal;
 #X text 102 337 signal;
-#X text 152 278 - the height (amplitude) of the window is controlled by the signal on its inlet.;
 #X text 152 337 - a blackman window with size=dsp blocksize;
 #N canvas 306 207 494 344 META 0;
 #X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
@@ -39,8 +36,11 @@
 #X obj 490 5 blackman~;
 #X obj 94 175 windowing/blackman~;
 #X obj 249 215 windowing/dspSwitch~;
-#X connect 7 0 12 0;
+#X obj 72 269 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
+#X text 101 267 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 101 296 normalize <1|0>: normalize window for overlap-add;
+#X connect 6 0 11 0;
+#X connect 7 0 6 0;
 #X connect 8 0 7 0;
-#X connect 9 0 8 0;
-#X connect 12 0 25 0;
-#X connect 25 0 17 0;
+#X connect 11 0 22 0;
+#X connect 22 0 16 0;
