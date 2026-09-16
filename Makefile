@@ -3,6 +3,8 @@
 
 lib.name := windowing
 
+common.sources = src/windowing.c
+
 bartlett~.class.sources = src/bartlett~.c
 blackman~.class.sources = src/blackman~.c
 connes~.class.sources   = src/connes~.c
