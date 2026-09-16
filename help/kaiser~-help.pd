@@ -1,61 +1,44 @@
-#N canvas 1 80 557 517 10;
-#X obj 4 506 cnv 15 550 20 empty \$0-pddp.cnv.footer empty 20 12 0
-14 -228856 -66577 0;
-#X obj 4 3 cnv 15 550 40 empty \$0-pddp.cnv.header kaiser~ 3 12 0 18
--204280 -1 0;
-#X obj 3 279 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
--228856 -1 0;
-#X obj 3 359 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13
--228856 -1 0;
-#X obj 3 399 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12
-0 13 -228856 -1 0;
-#X obj 72 299 cnv 17 3 50 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
--162280 0;
+#N canvas 1 80 557 534 10;
+#X obj 4 506 cnv 15 550 20 empty \$0-pddp.cnv.footer empty 20 12 0 14 #dcdcdc #404040 0;
+#X obj 4 3 cnv 15 550 40 empty \$0-pddp.cnv.header kaiser~ 3 12 0 18 #c4dcdc #000000 0;
+#X obj 3 279 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
+#X obj 3 359 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
+#X obj 3 399 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
+#X obj 72 299 cnv 17 3 50 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 47 formula:;
-#X obj 97 114 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 -262144
--1 -1 7000 1;
+#X obj 97 114 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X msg 94 84 1;
 #X obj 94 64 loadbang;
 #X text 13 113 height --->;
 #X obj 94 133 sig~ 1;
 #N canvas 0 50 450 300 (subpatch) 0;
 #X array \$0-kaiser 64 float 0;
+#A color 0;
+#A width 1;
 #X coords 0 1 63 -1 200 140 1;
 #X restore 326 130 graph;
-#X text 103 423 Windowing functions are used with FFTs. These transform
-the signal block-by-block into a spectral representation whose resolution
-in both the frequency and time domains are proportional to their size
-(as a power-of-two in PD). The different windows have different characteristics
-in terms of stopband attenuation and noise bandwidth.;
-#X text 102 298 SIGNAL: the height (amplitude) of the window is controlled
-by the signal on its inlet.;
-#X obj 186 114 hsl 81 15 1 240 1 0 empty empty empty -2 -6 0 10 -262144
--1 -1 3361 1;
-#X floatatom 183 133 5 0 0 0 - - -, f 5;
+#X text 103 423 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
+#X text 102 298 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X obj 186 114 hsl 81 15 1 240 1 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
+#X floatatom 183 133 5 0 0 0 - - - 0;
 #X obj 94 253 tabsend~ \$0-kaiser;
 #X text 169 91 modified Bessel function;
 #X text 169 77 where Io is 0th order;
 #X text 168 62 Io(a*sqrt(1-x^2))/Io(a);
-#X text 103 367 SIGNAL: a kaiser (exponential decay) window with size=dsp
-blocksize;
+#X text 103 367 SIGNAL: a kaiser (exponential decay) window with size=dsp blocksize;
 #X msg 121 84 10;
-#X text 102 324 FLOAT: the narrowness of the kaiser window is controlled
-by floats in the inlet;
-#X text 15 26 description: generates a kaiser window for each dsp block
-;
+#X text 102 324 FLOAT: the narrowness of the kaiser window is controlled by floats in the inlet;
+#X text 15 26 description: generates a kaiser window for each dsp block;
 #N canvas 286 187 494 344 META 0;
-#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan
-Wilkes for Pd version 0.42.;
+#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
 #X text 12 25 LICENSE GPL v2;
 #X text 12 5 KEYWORDS signal;
 #X text 12 65 INLET_0 signal;
 #X text 12 85 OUTLET_0 signal;
 #X text 12 105 AUTHOR Joe Sarlo;
-#X text 12 45 DESCRIPTION generate a kaiser window for each dsp block
-;
+#X text 12 45 DESCRIPTION generate a kaiser window for each dsp block;
 #X restore 506 506 pd META;
-#X obj 72 369 cnv 17 3 25 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
--162280 0;
+#X obj 72 369 cnv 17 3 25 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X obj 94 198 windowing/kaiser~;
 #X obj 244 240 windowing/dspSwitch~;
 #X obj 493 8 kaiser~;

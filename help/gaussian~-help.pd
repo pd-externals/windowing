@@ -1,61 +1,45 @@
-#N canvas 1 80 569 517 10;
-#X obj 4 500 cnv 15 550 20 empty \$0-pddp.cnv.footer empty 20 12 0
-14 -228856 -66577 0;
-#X obj 4 4 cnv 15 550 40 empty \$0-pddp.cnv.header gaussian~ 3 12 0
-18 -204280 -1 0;
-#X obj 3 260 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
--228856 -1 0;
-#X obj 3 340 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13
--228856 -1 0;
-#X obj 3 390 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12
-0 13 -228856 -1 0;
-#X obj 72 280 cnv 17 3 50 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
--162280 0;
+#N canvas 1 80 560 521 10;
+#X obj 4 500 cnv 15 550 20 empty \$0-pddp.cnv.footer empty 20 12 0 14 #dcdcdc #404040 0;
+#X obj 4 4 cnv 15 550 40 empty \$0-pddp.cnv.header gaussian~ 3 12 0 18 #c4dcdc #000000 0;
+#X obj 3 260 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
+#X obj 3 340 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
+#X obj 3 390 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
+#X obj 72 280 cnv 17 3 50 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 61 formula:;
-#X obj 97 107 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 -262144
--1 -1 7000 1;
+#X obj 97 107 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X msg 94 81 1;
 #X obj 94 61 loadbang;
 #X text 15 106 height --->;
 #X obj 94 127 sig~ 1;
 #N canvas 0 50 450 300 (subpatch) 0;
 #X array \$0-gaussian 64 float 0;
+#A color 0;
+#A width 1;
 #X coords 0 1 63 -1 200 140 1;
 #X restore 326 108 graph;
-#X text 102 279 SIGNAL: the height (amplitude) of the window is controlled
-by the signal on its inlet.;
-#X text 15 27 description: generates a gaussian window for each dsp
-block;
+#X text 102 279 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 15 27 description: generates a gaussian window for each dsp block;
 #X obj 95 231 tabsend~ \$0-gaussian;
 #X text 103 352 SIGNAL: a gaussian window with size=dsp blocksize;
-#X obj 195 107 hsl 71 15 0 2 0 0 empty empty empty -2 -6 0 10 -262144
--1 -1 1750 1;
-#X floatatom 192 126 5 0 0 0 - - -, f 5;
+#X obj 195 107 hsl 71 15 0 2 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
+#X floatatom 192 126 5 0 0 0 - - - 0;
 #X msg 121 81 0.5;
-#X text 102 305 FLOAT: the width of the gaussian distribution curve
-is controlled by floats in the inlet;
+#X text 102 305 FLOAT: the width of the gaussian distribution curve is controlled by floats in the inlet;
 #X text 169 75 2^(-(x/d)^2);
-#X obj 73 351 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
--162280 0;
+#X obj 73 351 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #N canvas 310 251 494 344 META 0;
-#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan
-Wilkes for Pd version 0.42.;
+#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
 #X text 12 25 LICENSE GPL v2;
 #X text 12 5 KEYWORDS signal;
 #X text 12 65 INLET_0 signal;
 #X text 12 85 OUTLET_0 signal;
 #X text 12 105 AUTHOR Joe Sarlo;
-#X text 12 45 DESCRIPTION generate a gaussian window for each dsp block
-;
+#X text 12 45 DESCRIPTION generate a gaussian window for each dsp block;
 #X restore 505 501 pd META;
 #X obj 483 7 gaussian~;
 #X obj 95 178 windowing/gaussian~;
 #X obj 255 218 windowing/dspSwitch~;
-#X text 103 413 Windowing functions are used with FFTs. These transform
-the signal block-by-block into a spectral representation whose resolution
-in both the frequency and time domains are proportional to their size
-(as a power-of-two in PD). The different windows have different characteristics
-in terms of stopband attenuation and noise bandwidth.;
+#X text 103 413 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
 #X connect 7 0 11 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;

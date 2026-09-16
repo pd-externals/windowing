@@ -1,55 +1,40 @@
 #N canvas 1 80 571 517 10;
-#X obj 4 493 cnv 15 550 20 empty \$0-pddp.cnv.footer empty 20 12 0
-14 -228856 -66577 0;
-#X obj 4 2 cnv 15 550 40 empty \$0-pddp.cnv.header bartlett~ 3 12 0
-18 -204280 -1 0;
-#X obj 3 258 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13
--228856 -1 0;
-#X obj 3 318 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13
--228856 -1 0;
-#X obj 3 373 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12
-0 13 -228856 -1 0;
-#X obj 72 278 cnv 17 3 25 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
--162280 0;
+#X obj 4 493 cnv 15 550 20 empty \$0-pddp.cnv.footer empty 20 12 0 14 #dcdcdc #404040 0;
+#X obj 4 2 cnv 15 550 40 empty \$0-pddp.cnv.header bartlett~ 3 12 0 18 #c4dcdc #000000 0;
+#X obj 3 258 cnv 3 550 3 empty \$0-pddp.cnv.inlets inlets 8 12 0 13 #dcdcdc #000000 0;
+#X obj 3 318 cnv 3 550 3 empty \$0-pddp.cnv.outlets outlet 8 12 0 13 #dcdcdc #000000 0;
+#X obj 3 373 cnv 3 550 3 empty \$0-pddp.cnv.more_info more_info 8 12 0 13 #dcdcdc #000000 0;
+#X obj 72 278 cnv 17 3 25 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 168 59 formula:;
-#X obj 97 105 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 -262144
--1 -1 7000 1;
+#X obj 97 105 hsl 71 15 -1 1 0 0 empty empty empty -2 -6 0 10 #fcfcfc #000000 #000000 0 1;
 #X msg 94 85 1;
 #X obj 94 65 loadbang;
 #X text 15 104 height --->;
 #X obj 94 124 sig~ 1;
 #N canvas 0 50 450 300 (subpatch) 0;
 #X array \$0-bartlett 64 float 0;
+#A color 0;
+#A width 1;
 #X coords 0 1 63 -1 200 140 1;
 #X restore 326 106 graph;
-#X text 102 408 Windowing functions are used with FFTs. These transform
-the signal block-by-block into a spectral representation whose resolution
-in both the frequency and time domains are proportional to their size
-(as a power-of-two in PD). The different windows have different characteristics
-in terms of stopband attenuation and noise bandwidth.;
+#X text 102 408 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
 #X obj 94 229 tabsend~ \$0-bartlett;
 #X text 169 72 1-x^2;
-#X text 15 25 description: generates a bartlett window for each dsp
-block;
-#X obj 72 338 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 -228856
--162280 0;
+#X text 15 25 description: generates a bartlett window for each dsp block;
+#X obj 72 338 cnv 17 3 17 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #N canvas 303 134 494 344 META 0;
-#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan
-Wilkes for Pd version 0.42.;
+#X text 12 125 HELP_PATCH_AUTHORS "pd meta" information added by Jonathan Wilkes for Pd version 0.42.;
 #X text 12 25 LICENSE GPL v2;
 #X text 12 5 KEYWORDS signal;
-#X text 12 45 DESCRIPTION generate a bartlett window for each dsp block
-;
+#X text 12 45 DESCRIPTION generate a bartlett window for each dsp block;
 #X text 12 65 INLET_0 signal;
 #X text 12 85 OUTLET_0 signal;
 #X text 12 105 AUTHOR Joe Sarlo;
 #X restore 501 494 pd META;
 #X text 101 276 signal;
 #X text 101 336 signal;
-#X text 151 276 - the height (amplitude) of the window is controlled
-by the signal on its inlet.;
-#X text 151 336 - a bartlett (triangle) window with size=dsp blocksize
-;
+#X text 151 276 - the height (amplitude) of the window is controlled by the signal on its inlet.;
+#X text 151 336 - a bartlett (triangle) window with size=dsp blocksize;
 #X obj 486 7 bartlett~;
 #X obj 94 174 windowing/bartlett~;
 #X obj 255 216 windowing/dspSwitch~;
