@@ -1,4 +1,4 @@
-/* hanning~ - hanning windowing function for Pure Data 
+/* hann~ - hann windowing function for Pure Data 
 **
 ** SPDX-FileCopyrightText: © 2002, Joseph A. Sarlo <jsarlo@mambo.peabody.jhu.edu>
 ** SPDX-License-Identifier: GPL-2.0-or-later
@@ -6,7 +6,7 @@
 */
 #include "windowing.h"
 
-static void fillHanning(UNUSED t_windowing *w, t_sample *vec, size_t n) {
+static void fillHann(UNUSED t_windowing *w, t_sample *vec, size_t n) {
   size_t i;
   t_sample xShift = (t_sample)n / 2;
   t_sample x;
@@ -16,4 +16,4 @@ static void fillHanning(UNUSED t_windowing *w, t_sample *vec, size_t n) {
   }
 }
 
-WINDOWING_SETUP(hanning, fillHanning);
+WINDOWING_SETUP(hann, fillHann);
