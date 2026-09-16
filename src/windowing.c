@@ -131,7 +131,7 @@ t_windowing* windowing_new(t_class *cls) {
 t_class *windowing_setupclass(
   t_class *cls,
   t_window_fill fillfun) {
-  class_addmethod(cls, (t_method)windowing_normalize, gensym("normalize"), A_FLOAT, 0);
+  class_addmethod(cls, (t_method)windowing_normalize, gensym("olanorm"), A_FLOAT, 0);
   class_addmethod(cls, nullfn, gensym("signal"), 0);
   class_addmethod(cls, (t_method)windowing_dsp, gensym("dsp"), A_CANT, 0);
   class_addmethod(cls, (t_method)fillfun, gensym("windowfill"), A_CANT, 0);
