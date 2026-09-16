@@ -19,6 +19,7 @@ welch~.class.sources    = src/welch~.c
 datafiles = \
 $(wildcard help/*-help.pd) \
 help/dspSwitch~.pd \
+help/hanning~.pd \
 LICENSE.txt \
 README.md \
 README.txt \
