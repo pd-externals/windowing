@@ -52,6 +52,7 @@ typedef struct _windowing {
   size_t x_overlap; /* cache overlap factor of the incoming signal */
   t_sample x_makeup; /* make up gain */
   int x_normalize; /* should we normalize? */
+  t_float x_f;
 } t_windowing;
 
 /* free private data; must be called in the destructor of the class */
