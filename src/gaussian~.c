@@ -34,7 +34,7 @@ static void fillGaussian(t_gaussian *obj, t_sample *vec, size_t n) {
 static void gaussian_float(t_gaussian *x, t_float delta) {
   if (delta != 0) {
     x->x_delta = delta;
-    fillGaussian(x, x->x_w.x_table, x->x_w.x_tablesize);
+    windowing_rebuildtable(&x->x_w, x->x_w.x_tablesize, x->x_w.x_overlap);
   }
 }
 
