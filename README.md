@@ -6,7 +6,7 @@ https://git.puredata.info/cgit/svn2git/libraries/fwindowing.git, which is
 the svn-to-git from 
 https://sourceforge.net/p/pure-data/svn/HEAD/tree/trunk/externals/windowing/.
 
-<p align="center"><img src="windowing-help.png">
+<p align="center"><img src="help/windowing-help.png">
 
 <p>See the original README.txt for more information. An extensive 
 description of window functions can be found at 
