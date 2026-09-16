@@ -17,14 +17,13 @@ lanczos~.class.sources  = src/lanczos~.c
 welch~.class.sources    = src/welch~.c
 
 datafiles = \
-$(wildcard help/*-help.pd) \
-help/dspSwitch~.pd \
-help/hanning~.pd \
-LICENSE.txt \
-README.md \
-README.txt \
-src/mconf.h \
-windowing-meta.pd
+	$(wildcard help/*-help.pd) \
+	help/dspSwitch~.pd \
+	help/hanning~.pd \
+	LICENSE.txt \
+	README.md \
+	README.txt \
+	windowing-meta.pd
 
 
 PDLIBBUILDER_DIR=pd-lib-builder/
