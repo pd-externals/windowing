@@ -59,8 +59,6 @@ static void* gaussian_new(t_float delta) {
 }
 
 void gaussian_tilde_setup(void) {
-  filename = __FILE__;
-
   gaussian_class = class_new(gensym("gaussian~"),
 			    (t_newmethod)gaussian_new, 
 			    (t_method)windowing_free,

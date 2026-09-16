@@ -19,7 +19,6 @@
 #endif
 
 struct _windowing;
-static const char*filename = 0;
 typedef void (*t_window_fill)(struct _windowing *x, t_sample *vec, size_t n);
 
 static t_class *windowing_class;
@@ -111,7 +110,6 @@ static t_class *windowing_setup(
 
 #define WINDOWING_SETUP(name, fillfun) \
   void name##_tilde_setup(void) {\
-    filename = __FILE__;					\
     windowing_setup(0, #name"~", (t_window_fill)fillfun);	\
   }
 

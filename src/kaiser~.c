@@ -61,7 +61,6 @@ static void* kaiser_new(t_float alpha) {
 
 
 void kaiser_tilde_setup(void) {
-  filename = __FILE__;
   kaiser_class = class_new(gensym("kaiser~"),
 			    (t_newmethod)kaiser_new, 
 			    (t_method)windowing_free,
