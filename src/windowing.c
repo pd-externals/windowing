@@ -56,7 +56,7 @@ void windowing_rebuildtable(t_windowing *x, size_t tablesize, size_t overlap) {
       for(i=0; i<overlap; i++) {
 	sum += x->x_table[i*(tablesize/overlap)];
       }
-      x->x_makeup = 1./(sum);
+      x->x_makeup = (1.*overlap)/(sum);
     } else {
       for(i=0; i<tablesize; i++) {
 	sum += x->x_table[i]*x->x_table[i];
