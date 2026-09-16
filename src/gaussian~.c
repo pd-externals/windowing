@@ -52,7 +52,7 @@ static void gaussian_float(t_gaussian *x, t_float delta) {
   }
 }
 
-static void* gaussian_new(float delta) {
+static void* gaussian_new(t_float delta) {
   t_gaussian *x = (t_gaussian *)windowing_new(gaussian_class);
   x->x_delta = (delta == 0)?DEFDELTA:delta;
   return (x);

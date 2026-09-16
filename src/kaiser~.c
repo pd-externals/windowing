@@ -53,7 +53,7 @@ static void kaiser_float(t_kaiser *x, t_float alpha) {
   fillKaiser(x, x->x_w.x_table, x->x_w.x_blocksize);
 }
 
-static void* kaiser_new(float alpha) {
+static void* kaiser_new(t_float alpha) {
   t_kaiser *x = (t_kaiser *)windowing_new(kaiser_class);
   x->x_alpha = (alpha == 0.)?DEFALPHA:alpha;
   return (x);
