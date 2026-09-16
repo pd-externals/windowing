@@ -118,8 +118,8 @@
 #X obj 16 733 tabsend~ \$0-gaussian;
 #X obj 185 733 tabsend~ \$0-kaiser;
 #X obj 334 701 windowing/dspSwitch~;
-#X obj 0 4 cnv 15 350 20 empty empty empty 3 12 0 14 #c4dcdc #000000 0;
-#X text 6 5 All windowing objects;
+#X obj 10 4 cnv 15 350 20 empty empty empty 3 12 0 14 #c4dcdc #000000 0;
+#X text 16 5 All windowing objects;
 #X connect 0 0 39 0;
 #X connect 1 0 40 0;
 #X connect 2 0 48 0;
