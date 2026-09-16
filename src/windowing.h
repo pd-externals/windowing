@@ -18,6 +18,19 @@
 # define DEFBLOCKSIZE 64
 #endif
 
+#ifdef UNUSED
+# undef UNUSED
+#endif
+#if defined(__GNUC__)
+# define UNUSED __attribute__ ((__unused__))
+/* https://stackoverflow.com/questions/67452447, but i haven't tested this...
+#elif defined _MSC_VER
+# define UNUSED __pragma(warning(suppress: 4505))
+*/
+#else
+# define UNUSED
+#endif
+
 struct _windowing;
 typedef void (*t_window_fill)(struct _windowing *x, t_sample *vec, size_t n);
 

@@ -21,11 +21,10 @@
 
 #include "windowing.h"
 
-static void fillWelch(t_windowing *unused, t_sample *vec, size_t n) {
+static void fillWelch(UNUSED t_windowing *w, t_sample *vec, size_t n) {
   size_t i;
   t_sample xShift = (t_sample)n / 2;
   t_sample x;
-  (void)unused;
   for (i = 0; i < n; i++) {
     x = (i - xShift) / xShift;
     vec[i] = 1 - (x * x);
