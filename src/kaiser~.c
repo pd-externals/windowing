@@ -35,7 +35,7 @@ static t_class *kaiser_class;
 
 static void kaiser_float(t_kaiser *x, t_float alpha) {
   x->x_alpha = alpha;
-  fillKaiser(x, x->x_w.x_table, x->x_w.x_blocksize);
+  fillKaiser(x, x->x_w.x_table, x->x_w.x_tablesize);
 }
 
 static void* kaiser_new(t_float alpha) {

@@ -43,7 +43,7 @@ typedef void (*t_window_fill)(struct _windowing *x, t_sample *vec, size_t n);
 typedef struct _windowing {
   t_object x_obj;
   t_window_fill x_fill;
-  size_t x_blocksize;
+  size_t x_tablesize;
   t_sample *x_table;
   t_sample x_makeup; /* make up gain */
 } t_windowing;

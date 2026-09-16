@@ -22,32 +22,33 @@ static t_int* windowing_perform(t_int *w) {
 }
 
 static void windowing_dsp(t_windowing *x, t_signal **sp) {
-  size_t blocksize = (sp[0]->s_n > 0)?sp[0]->s_n:1;
-  if(x->x_fill && x->x_blocksize != blocksize) {
+  size_t tablesize = (sp[0]->s_n > 0)?sp[0]->s_n:1;
+  if(x->x_fill && x->x_tablesize != tablesize) {
     size_t i;
     t_sample sum = 0;
-    x->x_table = resizebytes (x->x_table, x->x_blocksize * sizeof(*x->x_table), blocksize * sizeof(*x->x_table));
-    x->x_blocksize = blocksize;
-    x->x_fill(x, x->x_table, blocksize);
-    for(i=0; i<blocksize; i++) {
+    x->x_table = resizebytes (x->x_table, x->x_tablesize * sizeof(*x->x_table), tablesize * sizeof(*x->x_table));
+    x->x_tablesize = tablesize;
+    x->x_fill(x, x->x_table, tablesize);
+    for(i=0; i<tablesize; i++) {
       sum += x->x_table[i]*x->x_table[i];
     }
-    x->x_makeup = 1./sqrt(sum / (t_sample)blocksize);
+    x->x_makeup = 1./sqrt(sum / (t_sample)tablesize);
   }
-  if (x->x_table && x->x_blocksize == blocksize)
+
+  if (x->x_table && x->x_tablesize >= sp[0]->s_n)
     dsp_add(windowing_perform, 4, sp[0]->s_vec, x->x_table, sp[1]->s_vec, sp[0]->s_n);
   else
     dsp_add_zero(sp[1]->s_vec, sp[0]->s_n);
 }
 
 void windowing_free(t_windowing *x) {
-  freebytes(x->x_table, x->x_blocksize * sizeof(*x->x_table));
+  freebytes(x->x_table, x->x_tablesize * sizeof(*x->x_table));
 }
 
 t_windowing* windowing_new(t_class *cls) {
   t_windowing *x = (t_windowing *)pd_new(cls);
-  x->x_blocksize = 0;
-  x->x_table = getbytes(x->x_blocksize * sizeof(*x->x_table));
+  x->x_tablesize = 0;
+  x->x_table = getbytes(x->x_tablesize * sizeof(*x->x_table));
   x->x_fill = (t_window_fill)zgetfn(&cls, gensym("windowfill"));
   if(!x->x_fill) {
     pd_error(x, "no table implementation found!");
