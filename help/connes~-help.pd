@@ -18,7 +18,7 @@
 #A width 1;
 #X coords 0 1 63 -1 200 140 1;
 #X restore 301 110 graph;
-#X text 169 72 cos(pi*x/2);
+#X text 169 72 (1-x^2)^2;
 #X obj 72 339 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X obj 94 231 tabsend~ \$0-connes;
 #X text 103 337 SIGNAL: a connes window with size=dsp blocksize;
