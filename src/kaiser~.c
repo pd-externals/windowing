@@ -48,13 +48,13 @@ static void* kaiser_new(t_float alpha) {
 
 void kaiser_tilde_setup(void) {
   kaiser_class = class_new(gensym("kaiser~"),
-			    (t_newmethod)kaiser_new, 
-			    (t_method)windowing_free,
-    	                    sizeof(t_kaiser),
-			    0,
-			    A_DEFFLOAT,
-			    0);
-  windowing_setup(kaiser_class, 0, (t_window_fill)fillKaiser);
+			   (t_newmethod)kaiser_new,
+			   (t_method)windowing_free,
+			   sizeof(t_kaiser),
+			   0,
+			   A_DEFFLOAT,
+			   0);
+  windowing_setupclass(kaiser_class, (t_window_fill)fillKaiser);
   class_addfloat(kaiser_class, (t_method)kaiser_float);
 }
 

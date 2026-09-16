@@ -52,6 +52,6 @@ void gaussian_tilde_setup(void) {
 			    0,
 			    A_DEFFLOAT,
 			    0);
-  windowing_setup(gaussian_class, 0, (t_window_fill)fillGaussian);
+  windowing_setupclass(gaussian_class, (t_window_fill)fillGaussian);
   class_addfloat(gaussian_class, (t_method)gaussian_float);
 }
