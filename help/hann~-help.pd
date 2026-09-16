@@ -39,7 +39,7 @@
 #X obj 96 478 hanning~;
 #X obj 72 256 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 101 254 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
-#X text 101 283 normalize <1|0>: normalize window for overlap-add;
+#X text 101 283 olanorm <1|0>: normalize window for overlap-add;
 #X connect 7 0 21 0;
 #X connect 9 0 7 0;
 #X connect 10 0 9 0;

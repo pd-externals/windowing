@@ -37,7 +37,7 @@
 #X obj 94 174 windowing/bartlett~;
 #X obj 255 216 windowing/dspSwitch~;
 #X text 101 276 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
-#X text 101 305 normalize <1|0>: normalize window for overlap-add;
+#X text 101 305 olanorm <1|0>: normalize window for overlap-add;
 #X connect 7 0 11 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;

@@ -40,7 +40,7 @@
 #X obj 95 178 windowing/gaussian~;
 #X obj 255 218 windowing/dspSwitch~;
 #X text 103 413 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
-#X text 101 322 normalize <1|0>: normalize window for overlap-add;
+#X text 101 322 olanorm <1|0>: normalize window for overlap-add;
 #X connect 7 0 11 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;

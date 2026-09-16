@@ -37,7 +37,7 @@
 #X obj 255 211 windowing/dspSwitch~;
 #X obj 72 259 cnv 17 3 40 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;
 #X text 101 257 SIGNAL: the height (amplitude) of the window is controlled by the signal on its inlet.;
-#X text 101 286 normalize <1|0>: normalize window for overlap-add;
+#X text 101 286 olanorm <1|0>: normalize window for overlap-add;
 #X connect 6 0 12 0;
 #X connect 7 0 6 0;
 #X connect 8 0 7 0;

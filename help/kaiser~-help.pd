@@ -42,7 +42,7 @@
 #X obj 94 198 windowing/kaiser~;
 #X obj 244 240 windowing/dspSwitch~;
 #X obj 493 8 kaiser~;
-#X text 101 339 normalize <1|0>: normalize window for overlap-add;
+#X text 101 339 olanorm <1|0>: normalize window for overlap-add;
 #X connect 7 0 11 0;
 #X connect 8 0 7 0;
 #X connect 9 0 8 0;
