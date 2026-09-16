@@ -14,6 +14,7 @@ hamming~.class.sources  = src/hamming~.c
 hann~.class.sources     = src/hann~.c
 kaiser~.class.sources   = src/kaiser~.c
 lanczos~.class.sources  = src/lanczos~.c
+rectangle~.class.sources= src/rectangle~.c
 welch~.class.sources    = src/welch~.c
 
 datafiles = \
