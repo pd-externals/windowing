@@ -50,7 +50,7 @@ void kaiser_tilde_setup(void) {
 			   (t_newmethod)kaiser_new,
 			   (t_method)windowing_free,
 			   sizeof(t_kaiser),
-			   0,
+			   CLASS_MULTICHANNEL,
 			   A_DEFFLOAT,
 			   0);
   windowing_setupclass(kaiser_class, (t_window_fill)fillKaiser);

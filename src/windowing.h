@@ -22,6 +22,10 @@
 # define DEFBLOCKSIZE 64
 #endif
 
+#ifndef CLASS_MULTICHANNEL
+# define CLASS_MULTICHANNEL 0
+#endif
+
 #ifdef UNUSED
 # undef UNUSED
 #endif
@@ -72,7 +76,7 @@ UNUSED static void* windowing_do_new(void) {
       classname,							\
       (t_newmethod)windowing_do_new, (t_method)windowing_free,		\
       sizeof(t_windowing),						\
-      0, 0);								\
+      CLASS_MULTICHANNEL, 0);						\
     windowing_setupclass(windowing_class, fillfun);			\
   }
 

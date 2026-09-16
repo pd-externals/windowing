@@ -22,7 +22,15 @@ static t_int* windowing_perform(t_int *w) {
 }
 
 static void windowing_dsp(t_windowing *x, t_signal **sp) {
-  size_t tablesize = (sp[0]->s_n > 0)?sp[0]->s_n:1;
+  int length = sp[0]->s_n;
+  int totalsamples = length;
+  size_t tablesize = (length > 0)?length:1;
+#if CLASS_MULTICHANNEL
+  int numchannels = sp[0]->s_nchans;
+  totalsamples = length * numchannels;
+  signal_setmultiout(&sp[1], numchannels);
+#endif
+
   if(x->x_fill && x->x_tablesize != tablesize) {
     size_t i;
     t_sample sum = 0;
@@ -35,10 +43,19 @@ static void windowing_dsp(t_windowing *x, t_signal **sp) {
     x->x_makeup = 1./sqrt(sum / (t_sample)tablesize);
   }
 
-  if (x->x_table && x->x_tablesize >= sp[0]->s_n)
-    dsp_add(windowing_perform, 4, sp[0]->s_vec, x->x_table, sp[1]->s_vec, sp[0]->s_n);
-  else
-    dsp_add_zero(sp[1]->s_vec, sp[0]->s_n);
+  if (x->x_table && x->x_tablesize >= length) {
+    int offset = 0;
+#if CLASS_MULTICHANNEL
+    for(offset=0; offset<numchannels; offset++)
+#endif
+    {
+      t_sample *in = sp[0]->s_vec + offset * length;
+      t_sample *out = sp[1]->s_vec + offset * length;
+      dsp_add(windowing_perform, 4, in, x->x_table, out, length);
+    }
+  } else {
+    dsp_add_zero(sp[1]->s_vec, totalsamples);
+  }
 }
 
 void windowing_free(t_windowing *x) {

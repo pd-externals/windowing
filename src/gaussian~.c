@@ -49,7 +49,7 @@ void gaussian_tilde_setup(void) {
 			    (t_newmethod)gaussian_new, 
 			    (t_method)windowing_free,
     	                    sizeof(t_gaussian),
-			    0,
+			    CLASS_MULTICHANNEL,
 			    A_DEFFLOAT,
 			    0);
   windowing_setupclass(gaussian_class, (t_window_fill)fillGaussian);
