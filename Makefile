@@ -1,17 +1,17 @@
-# Makefile for Makefile.pdlibbuilder. 
-# 
+# Makefile for Makefile.pdlibbuilder.
+#
 
 lib.name := windowing
- 
-bartlett~.class.sources = src/bartlett~.c  
-blackman~.class.sources = src/blackman~.c  
-connes~.class.sources   = src/connes~.c  
-cosine~.class.sources   = src/cosine~.c  
-gaussian~.class.sources = src/gaussian~.c  
-hamming~.class.sources  = src/hamming~.c  
-hanning~.class.sources  = src/hanning~.c  
-kaiser~.class.sources   = src/kaiser~.c  
-lanczos~.class.sources  = src/lanczos~.c  
+
+bartlett~.class.sources = src/bartlett~.c
+blackman~.class.sources = src/blackman~.c
+connes~.class.sources   = src/connes~.c
+cosine~.class.sources   = src/cosine~.c
+gaussian~.class.sources = src/gaussian~.c
+hamming~.class.sources  = src/hamming~.c
+hanning~.class.sources  = src/hanning~.c
+kaiser~.class.sources   = src/kaiser~.c
+lanczos~.class.sources  = src/lanczos~.c
 welch~.class.sources    = src/welch~.c
 
 datafiles = \

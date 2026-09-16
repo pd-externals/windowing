@@ -1,4 +1,4 @@
-/* kaiser~ - kaiser windowing function for Pure Data 
+/* kaiser~ - kaiser windowing function for Pure Data
 **
 ** Copyright (C) 2002 Joseph A. Sarlo
 **
