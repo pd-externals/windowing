@@ -10,13 +10,20 @@
 #include "windowing.h"
 
 static t_int* windowing_perform(t_int *w) {
-  t_sample *in = (t_sample *)(w[1]);
-  t_sample *win = (t_sample *)(w[2]);
+  t_windowing *x = (t_windowing *)w[1];
+  t_sample *in = (t_sample *)(w[2]);
   t_sample *out = (t_sample *)(w[3]);
   int n = (int)(w[4]);
+  t_sample *win = x->x_table;
+  t_sample gain = 1.;
+
   int i;
+
+  if(x->x_normalize)
+    gain = x->x_makeup;
+
   for (i = 0; i < n; i++) {
-    *out++ = *(in++) * win[i];
+    *out++ = *(in++) * win[i] * gain;
   }
   return (w + 5);
 }
@@ -27,23 +34,33 @@ static void windowing_dsp(t_windowing *x, t_signal **sp) {
   size_t tablesize = (length > 0)?length:1;
 #if CLASS_MULTICHANNEL
   int numchannels = sp[0]->s_nchans;
+  size_t overlap = (sp[0]->s_overlap>0)?sp[0]->s_overlap:1;
   totalsamples = length * numchannels;
   signal_setmultiout(&sp[1], numchannels);
 #endif
 
   if(x->x_fill && x->x_tablesize != tablesize) {
-    size_t i;
-    t_sample sum = 0;
     x->x_table = resizebytes (x->x_table, x->x_tablesize * sizeof(*x->x_table), tablesize * sizeof(*x->x_table));
     x->x_tablesize = tablesize;
     x->x_fill(x, x->x_table, tablesize);
-    for(i=0; i<tablesize; i++) {
-      sum += x->x_table[i]*x->x_table[i];
-    }
-    x->x_makeup = 1./sqrt(sum / (t_sample)tablesize);
   }
 
   if (x->x_table && x->x_tablesize >= length) {
+    t_sample sum = 0;
+    size_t i;
+#if CLASS_MULTICHANNEL
+    if (overlap > 1) {
+      for(i=0; i<overlap; i++) {
+	sum += x->x_table[i*(length/overlap)];
+      }
+      x->x_makeup = 1./(sum);
+    } else {
+      for(i=0; i<tablesize; i++) {
+	sum += x->x_table[i]*x->x_table[i];
+      }
+      x->x_makeup = 1./sqrt(sum / (t_sample)tablesize);
+    }
+#endif
     int offset = 0;
 #if CLASS_MULTICHANNEL
     for(offset=0; offset<numchannels; offset++)
@@ -51,11 +68,25 @@ static void windowing_dsp(t_windowing *x, t_signal **sp) {
     {
       t_sample *in = sp[0]->s_vec + offset * length;
       t_sample *out = sp[1]->s_vec + offset * length;
-      dsp_add(windowing_perform, 4, in, x->x_table, out, length);
+      dsp_add(windowing_perform, 4, x, in, out, length);
     }
   } else {
     dsp_add_zero(sp[1]->s_vec, totalsamples);
   }
+}
+
+static void windowing_normalize(t_windowing *x, t_float f) {
+  int i=(int)f;
+#if !CLASS_MULTICHANNEL
+  static int shouldwarn = 1;
+  if (i && shouldwarn) {
+    pd_error(x, "windowing has been compiled without normalization support.");
+    shouldwarn = 0;
+    i = 0;
+  }
+#endif
+
+  x->x_normalize = !!i;
 }
 
 void windowing_free(t_windowing *x) {
@@ -64,6 +95,7 @@ void windowing_free(t_windowing *x) {
 
 t_windowing* windowing_new(t_class *cls) {
   t_windowing *x = (t_windowing *)pd_new(cls);
+  x->x_makeup = 1.;
   x->x_tablesize = 0;
   x->x_table = getbytes(x->x_tablesize * sizeof(*x->x_table));
   x->x_fill = (t_window_fill)zgetfn(&cls, gensym("windowfill"));
@@ -78,6 +110,7 @@ t_windowing* windowing_new(t_class *cls) {
 t_class *windowing_setupclass(
   t_class *cls,
   t_window_fill fillfun) {
+  class_addmethod(cls, (t_method)windowing_normalize, gensym("normalize"), A_FLOAT, 0);
   class_addmethod(cls, nullfn, gensym("signal"), 0);
   class_addmethod(cls, (t_method)windowing_dsp, gensym("dsp"), A_CANT, 0);
   class_addmethod(cls, (t_method)fillfun, gensym("windowfill"), A_CANT, 0);
