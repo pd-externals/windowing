@@ -6,7 +6,6 @@
 */
 
 #include "windowing.h"
-#include "mconf.h"
 
 #define DEFALPHA 10
 
