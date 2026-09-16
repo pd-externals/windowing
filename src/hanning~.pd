@@ -4,4 +4,5 @@
 #X obj 36 116 outlet~;
 #X text 45 25 compat wrapper: [hann~] used to be called [hanning~];
 #X connect 0 0 1 0;
+#X connect 0 1 1 0;
 #X connect 1 0 2 0;
