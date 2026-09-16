@@ -28,30 +28,33 @@ static t_int* windowing_perform(t_int *w) {
   return (w + 5);
 }
 
-static void windowing_dsp(t_windowing *x, t_signal **sp) {
-  int length = sp[0]->s_n;
-  int totalsamples = length;
-  size_t tablesize = (length > 0)?length:1;
-#if CLASS_MULTICHANNEL
-  int numchannels = sp[0]->s_nchans;
-  size_t overlap = (sp[0]->s_overlap>0)?sp[0]->s_overlap:1;
-  totalsamples = length * numchannels;
-  signal_setmultiout(&sp[1], numchannels);
-#endif
+void windowing_rebuildtable(t_windowing *x, size_t tablesize, size_t overlap) {
+  if(overlap < 1)
+    overlap = 1;
+  x->x_overlap = overlap;
+  x->x_makeup = 1.;
 
-  if(x->x_fill && x->x_tablesize != tablesize) {
+  /* reallocate table if necessary */
+  if(x->x_tablesize != tablesize) {
     x->x_table = resizebytes (x->x_table, x->x_tablesize * sizeof(*x->x_table), tablesize * sizeof(*x->x_table));
     x->x_tablesize = tablesize;
+  }
+  /* fill table */
+  if(x->x_fill)
     x->x_fill(x, x->x_table, tablesize);
+  else {
+    size_t i;
+    for(i=0; i<tablesize; i++)
+      x->x_table[i] = 1.;
   }
 
-  if (x->x_table && x->x_tablesize >= length) {
+  /* calculate makeup gain */
+  if(x->x_table && x->x_tablesize > 0) {
     t_sample sum = 0;
     size_t i;
-#if CLASS_MULTICHANNEL
     if (overlap > 1) {
       for(i=0; i<overlap; i++) {
-	sum += x->x_table[i*(length/overlap)];
+	sum += x->x_table[i*(tablesize/overlap)];
       }
       x->x_makeup = 1./(sum);
     } else {
@@ -60,12 +63,29 @@ static void windowing_dsp(t_windowing *x, t_signal **sp) {
       }
       x->x_makeup = 1./sqrt(sum / (t_sample)tablesize);
     }
-#endif
-    int offset = 0;
+  }
+}
+
+static void windowing_dsp(t_windowing *x, t_signal **sp) {
+  int length = sp[0]->s_n;
+  size_t tablesize = (length > 0)?length:1;
+
+  int numchannels = 1;
+  size_t overlap = 1;
+  int totalsamples = length;
 #if CLASS_MULTICHANNEL
-    for(offset=0; offset<numchannels; offset++)
+  numchannels = sp[0]->s_nchans;
+  overlap = (sp[0]->s_overlap>0)?sp[0]->s_overlap:1;
+  totalsamples = length * numchannels;
+
+  signal_setmultiout(&sp[1], numchannels);
 #endif
-    {
+
+  windowing_rebuildtable(x, tablesize, overlap);
+
+  if (x->x_table && x->x_tablesize >= (length>0)?(size_t)length:0) {
+    int offset = 0;
+    for(offset=0; offset<numchannels; offset++) {
       t_sample *in = sp[0]->s_vec + offset * length;
       t_sample *out = sp[1]->s_vec + offset * length;
       dsp_add(windowing_perform, 4, x, in, out, length);
@@ -95,6 +115,7 @@ void windowing_free(t_windowing *x) {
 
 t_windowing* windowing_new(t_class *cls) {
   t_windowing *x = (t_windowing *)pd_new(cls);
+  x->x_overlap = 1;
   x->x_makeup = 1.;
   x->x_tablesize = 0;
   x->x_table = getbytes(x->x_tablesize * sizeof(*x->x_table));

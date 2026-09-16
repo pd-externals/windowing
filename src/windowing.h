@@ -49,6 +49,7 @@ typedef struct _windowing {
   t_window_fill x_fill;
   size_t x_tablesize;
   t_sample *x_table;
+  size_t x_overlap; /* cache overlap factor of the incoming signal */
   t_sample x_makeup; /* make up gain */
   int x_normalize; /* should we normalize? */
 } t_windowing;
@@ -60,6 +61,13 @@ t_windowing* windowing_new(t_class *cls);
 /* register DSP functions and the class's window fill function */
 t_class *windowing_setupclass(t_class *cls, t_window_fill fillfun);
 
+
+/* rebuild the window
+   - resize table
+   - fill table with window
+   - calculate makeup gain for the given overlap (and store overlap in x_overlap)
+*/
+void windowing_rebuildtable(t_windowing *x, size_t tablesize, size_t overlap);
 
 /* helpers to setup an entire windowing class like so:
    static void fillLanczos(t_windowing *x, t_sample *vec, size_t n) { ... }
