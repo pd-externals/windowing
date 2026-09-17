@@ -1,0 +1,10 @@
+#N canvas 100 100 450 175 12;
+#X obj 36 66 inlet~;
+#X obj 36 116 outlet~;
+#X obj 36 91 windowing/cosinesum~ 0.21557895 -0.41663158 0.277263158 -0.0835878947 0.006947368;
+#X text 32 30 flat top window: 0.215579 + 0.416632*cos(π*x) + 0.277263*cos(2π*x) + 0.0835879*cos(3π*x) + 0.00694737*cos(4π*x);
+#X text 123 124 © 2026 \, IOhannes m zmölnig <zmoelnig@iem.at>;
+#X text 131 145 GPL-2.0-or-later;
+#X connect 0 0 2 0;
+#X connect 0 1 2 0;
+#X connect 2 0 1 0;

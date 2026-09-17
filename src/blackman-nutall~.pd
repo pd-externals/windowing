@@ -1,0 +1,10 @@
+#N canvas 100 100 450 175 12;
+#X obj 36 66 inlet~;
+#X obj 36 116 outlet~;
+#X obj 36 91 windowing/cosinesum~ 0.3635819 -0.4891775 0.1365995 -0.0106411;
+#X text 32 30 blackman-nutall window: 0.363582 + 0.489177*cos(π*x) + 0.1366*cos(2π*x) + 0.0106411*cos(3π*x);
+#X text 123 124 © 2026 \, IOhannes m zmölnig <zmoelnig@iem.at>;
+#X text 131 145 GPL-2.0-or-later;
+#X connect 0 0 2 0;
+#X connect 0 1 2 0;
+#X connect 2 0 1 0;
