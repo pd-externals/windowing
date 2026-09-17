@@ -9,6 +9,7 @@ bartlett~.class.sources = src/bartlett~.c
 blackman~.class.sources = src/blackman~.c
 connes~.class.sources   = src/connes~.c
 cosine~.class.sources   = src/cosine~.c
+cosinesum~.class.sources= src/cosinesum~.c
 gaussian~.class.sources = src/gaussian~.c
 hamming~.class.sources  = src/hamming~.c
 hann~.class.sources     = src/hann~.c
@@ -16,7 +17,6 @@ kaiser~.class.sources   = src/kaiser~.c
 lanczos~.class.sources  = src/lanczos~.c
 parzen~.class.sources   = src/parzen~.c
 rectangle~.class.sources= src/rectangle~.c
-raisedcosine~.class.sources= src/raisedcosine~.c
 welch~.class.sources    = src/welch~.c
 
 datafiles = \
