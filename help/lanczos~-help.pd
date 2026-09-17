@@ -17,7 +17,7 @@
 #X coords 0 1 63 -1 200 140 1;
 #X restore 326 105 graph;
 #X text 102 391 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
-#X text 169 63 sin(pi*x)/(pi*x);
+#X text 169 63 sin(π*x)/(π*x);
 #X text 15 24 description: generates a lanczos window for each dsp block;
 #X obj 94 228 tabsend~ \$0-lanczos;
 #X text 103 335 SIGNAL: a lanczos (sinc) window with size=dsp blocksize;

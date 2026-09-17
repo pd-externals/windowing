@@ -18,7 +18,7 @@
 #A width 1;
 #X coords 0 1 63 -1 200 140 1;
 #X restore 336 105 graph;
-#X text 169 70 cos(pi*x/2);
+#X text 169 70 cos(π*x/2);
 #X text 15 24 description: generates a cosine window for each dsp block;
 #X obj 94 228 tabsend~ \$0-cosine;
 #X obj 72 330 cnv 17 3 30 empty \$0-pddp.cnv.let.0 0 5 9 0 16 #dcdcdc #9c9c9c 0;

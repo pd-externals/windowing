@@ -18,7 +18,7 @@
 #A width 1;
 #X coords 0 1 63 -1 200 140 1;
 #X restore 334 101 graph;
-#X text 167 73 0.54+0.46*(cos(pi*x));
+#X text 167 73 0.54+0.46*(cos(π*x));
 #X text 102 391 Windowing functions are used with FFTs. These transform the signal block-by-block into a spectral representation whose resolution in both the frequency and time domains are proportional to their size (as a power-of-two in PD). The different windows have different characteristics in terms of stopband attenuation and noise bandwidth.;
 #X text 103 327 SIGNAL: a hamming (raised cosine) window with size=dsp blocksize;
 #X obj 94 224 tabsend~ \$0-hamming;
