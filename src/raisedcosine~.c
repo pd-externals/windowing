@@ -36,14 +36,14 @@ static void fillRaisedcosine(t_raisedcosine *x, t_sample *vec, size_t N) {
   }
 }
 
-static void raisedcosine_list(t_raisedcosine *x, t_symbol *s, int argc, t_atom *argv) {
+static void raisedcosine_list(t_raisedcosine *x, UNUSED t_symbol *s, int argc, t_atom *argv) {
   t_sample *coeffs;
   int i = 0;
   if(argc <= 0) {
     pd_error(x, "ignoring empty coefficient list");
     return;
   }
-  if (argc != x->x_numcoefficients) {
+  if ((size_t)argc != x->x_numcoefficients) {
     x->x_coefficients = resizebytes(
       x->x_coefficients,
       sizeof(*x->x_coefficients) * x->x_numcoefficients,
